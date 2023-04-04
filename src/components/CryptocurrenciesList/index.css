@@ -1,0 +1,11 @@
+/* Write your CSS code here */
+.table_header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.head {
+  display: flex;
+  flex-direction: row;
+}
