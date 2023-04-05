@@ -11,7 +11,7 @@ class CryptocurrienciesList extends Component {
   state = {isLoading: true, currencyData: []}
 
   componentDidMount() {
-    this.getBlogItemData()
+    this.getCurrencyData()
   }
 
   getCurrencyData = async () => {
