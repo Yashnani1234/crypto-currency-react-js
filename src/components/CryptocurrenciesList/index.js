@@ -1,6 +1,7 @@
 // Write your JS code here
 import {Component} from 'react'
 import Loader from 'react-loader-spinner'
+
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 
 import CryptocurrencyItem from '../CryptocurrencyItem'
@@ -8,7 +9,7 @@ import CryptocurrencyItem from '../CryptocurrencyItem'
 import './index.css'
 
 class CryptocurrienciesList extends Component {
-  state = {isLoading: true, currencyData: []}
+  state = {currencyData: [], isLoading: true}
 
   componentDidMount() {
     this.getCurrencyData()
@@ -19,13 +20,13 @@ class CryptocurrienciesList extends Component {
       'https://apis.ccbp.in/crypto-currency-converter',
     )
     const data = await response.json()
-    const updatedData = {
-      currencyName: data.currency_name,
-      usdValue: data.usd_value,
-      euroValue: data.euro_value,
-      currencyLogo: data.currency_logo,
-      id: data.id,
-    }
+    const updatedData = data.map(each => ({
+      currencyName: each.currency_name,
+      usdValue: each.usd_value,
+      euroValue: each.euro_value,
+      currency_logo: each.currency_logo,
+      id: each.id,
+    }))
     this.setState({currencyData: updatedData, isLoading: false})
   }
 
@@ -46,13 +47,23 @@ class CryptocurrienciesList extends Component {
               <h1>EURO</h1>
             </div>
           </div>
-          {isLoading ? (
-            <Loader type="TailSpin" color="#00BFFF" height={50} width={50} />
-          ) : (
-            currencyData.map(item => (
-              <CryptocurrencyItem currencyData={item} key={item.id} />
-            ))
-          )}
+
+          <ul>
+            {isLoading ? (
+              <div data-testid="loader">
+                <Loader
+                  type="TailSpin"
+                  color="#00BFFF"
+                  height={50}
+                  width={50}
+                />
+              </div>
+            ) : (
+              currencyData.map(item => (
+                <CryptocurrencyItem currencyData={item} key={item.id} />
+              ))
+            )}
+          </ul>
         </div>
       </div>
     )
